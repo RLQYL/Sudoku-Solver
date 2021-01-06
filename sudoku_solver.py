@@ -14,84 +14,54 @@ class sudoku_solver:
 				for j in range(len(self.array[i])):
 					if self.array[i][j] == 0:
 						self.blank_squares.append((i, j))
-						# We will always put a 1 for each blank square first.
-						# Then, we'll check if 1 is valid. If it is, we move on. Otherwise, we increment it.
-						possible_value = 1 
-						self.check_valid_inputs(i, j, possible_value)
-						
+						x = self.find_valid_inputs(i, j)
+						print(x)
 
 			self.completed_sudoku = True
 
-	def check_valid_inputs(self, row, column, value):
+	def find_valid_inputs(self, row, column):
 		'''
-		This function checks if the inputted value is valid or not.
+		This function is used to find all the possible valid inputs.
 		'''
 
-		# Used to keep track if the inputted value is valid or not.
-		is_valid = True
+		# This is used to store the possible values.
+		possible_values = [1,2,3,4,5,6,7,8,9]
 
-		# Checks if the inputted number is already in the row.
-		if value in array[row]:
-			is_valid = False
+		# Removes all the numbers that are already in the given row.
+		for number in self.array[row]:
+			if number in possible_values:
+				possible_values.remove(number)
 
-		# Checks if the inputted number is already in the column.
-		if is_valid:
-			for i in range(9):
-				if value == self.array[i][column]:
-					is_valid = False
+		# Removes all the numbers that are already in the given column.
+		for row_value in range(9):
+			if self.array[row_value][column] in possible_values:
+				possible_values.remove(self.array[row_value][column])
 
-		# Find all the filled in numbers in the 3 by 3 box.
-
-		# This is for the first 3 squares in any row.
-		if 0 <= row <= 2:
-			if 0 <= column <= 2:
-				lowest_block_index = 0
-
-			elif 3 <= column <= 5:
-				lowest_block_index = 3
-
-			else:
-				lowest_block_index = 6
-			
-			for i in range(3):
-				for j in range(lowest_block_index, lowest_block_index + 3):
-					if self.array[i][j] in valid_inputs:
-						valid_inputs.remove(self.array[i][j])
-				
-
-		# This is for the second 3 squares in any row.
-		elif 3 <= row <= 5:
-			if 0 <= column <= 2:
-				lowest_block_index = 0
-
-			elif 3 <= column <= 5:
-				lowest_block_index = 3
-
-			else:
-				lowest_block_index = 6
-			
-			for i in range(3, 6):
-				for j in range(lowest_block_index, lowest_block_index + 3):
-					if self.array[i][j] in valid_inputs:
-						valid_inputs.remove(self.array[i][j])
-
-		# This is for the last 3 squares in any row.
+		# Removes all the numbers that are already in that block.
+		# This finds the row section the element is in.
+		if (row >= 0 and row <= 2):
+			row_index = 0
+		elif (row >= 3 and row <= 5):
+			row_index = 3
 		else:
-			if 0 <= column <= 2:
-				lowest_block_index = 0
-
-			elif 3 <= column <= 5:
-				lowest_block_index = 3
-
-			else:
-				lowest_block_index = 6
+			row_index = 6
 			
-			for i in range(6, 9):
-				for j in range(lowest_block_index, lowest_block_index + 3):
-					if self.array[i][j] in valid_inputs:
-						valid_inputs.remove(self.array[i][j])
-
-		return is_valid
+		# This finds the columnumn section the element is in.
+		if (column >= 0 and column <= 2):
+			column_index = 0
+		elif (column >= 3 and column <= 5):
+			column_index = 3
+		else:
+			column_index = 6
+		
+		# This for loop goes through each 3*3 section to check if there's a
+		# number there already.
+		for i in range(row_index, row_index + 3):
+			for j in range(column_index, column_index + 3):
+				if self.array[i][j] in possible_values:
+					possible_values.remove(self.array[i][j])    
+			
+		return possible_values
 
 	def print_array(self):
 		'''
