@@ -6,10 +6,10 @@ class sudoku_solver:
 		self.blank_squares = []
 
 	def solve_sudoku(self):
+		pass
 		'''
 		This function uses backtracking to solve a sudoku puzzle.
-		'''
-		if (not self.completed_sudoku):
+				if (not self.completed_sudoku):
 			for i in range(len(self.array)):
 				for j in range(len(self.array[i])):
 					if self.array[i][j] == 0:
@@ -18,6 +18,35 @@ class sudoku_solver:
 						print(x)
 
 			self.completed_sudoku = True
+		'''
+		'''
+		Function solves the puzzle using the recursion method
+		Base Case (Check if there is any empty space or not):
+			If no empty space:
+				return True
+		Recursion Part:
+			Else:
+			Check if an entry is a valid entry and if it is, insert it into
+			the program and recurse
+			Else :
+			let the index be 0 
+		return False in the end
+		'''
+		index = empty_array(self.array)
+		if not index:
+			return True
+		else
+			row, col = index
+		for i in range(1,10):
+			pass
+			# if valid(self.array, i, (row, col))
+				# self.array[row][col] = i
+
+				# if solve_sudoko(self.array):
+					#return True
+
+				#self.array[row][col] = 0
+
 
 	def find_valid_inputs(self, row, column):
 		'''
@@ -75,6 +104,17 @@ class sudoku_solver:
 			for j in i:
 				print(str(j) + " ", end='')
 			print("")
+
+	def empty_array(self):
+		'''
+		Function determines to see if there is an empty space we have to fill yet or not 
+		'''
+		for i in range(len(self.array)):
+			for j in range(len(self.array)):
+				# if the following array is empty, return it
+				if self.array[i][j] == 0:
+					return (i, j) #row , col
+		return None
 
 if (__name__ == "__main__"):
 	# 0's represent an empty space.
